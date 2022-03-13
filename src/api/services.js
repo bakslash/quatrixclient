@@ -1,18 +1,23 @@
 
 import http from "./http";
-const token = (localStorage.getItem('accessToken:'))
+import authHeader from "./auth_headers";
 
-
-export const getTasks = () => {
+ export const getTasks = () => {
   return http.get("/" , {
-    headers: {
-      "Content-type": "application/json",
-      'Authorization':`Bearer${token}`
-    }
+    headers:authHeader
   });
 };
 
-export const login = data => {
-    return http.post("/personnel/login", data);
+export const SignIn= async(phone,password) => {
+  const data = {phone,password}
+  const res = await http.post("/personnel/login" ,data);
+   localStorage.setItem('user',res.data.data.accessToken )
+
+  return res
+
 };
+
+
+
+
 
